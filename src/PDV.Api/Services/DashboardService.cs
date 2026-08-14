@@ -16,7 +16,7 @@ public class DashboardService(
         var empresaId = currentUser.GetEmpresaId();
         var now = DateTime.UtcNow;
         var todayStart = now.Date;
-        var monthStart = new DateTime(now.Year, now.Month, 1);
+        var monthStart = new DateTime(now.Year, now.Month,1,0,0,0,DateTimeKind.Utc);
 
         var vendas = dbContext.Vendas.Where(item => item.EmpresaId == empresaId);
         var vendasFinalizadas = vendas.Where(item => item.Status == VendaStatus.Finalizada);
@@ -76,7 +76,8 @@ public class DashboardService(
     public async Task<IReadOnlyCollection<DashboardProdutosMaisVendidosDto>> GetProdutosMaisVendidosAsync(int top = 5)
     {
         var empresaId = currentUser.GetEmpresaId();
-        var monthStart = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1);
+        var now = DateTime.UtcNow;
+        var monthStart = new DateTime(now.Year, now.Month,1,0,0,0,DateTimeKind.Utc);
 
         var result = await (
             from vendaItem in dbContext.VendaItens.AsNoTracking()
@@ -108,7 +109,8 @@ public class DashboardService(
     public async Task<IReadOnlyCollection<DashboardVendasPorPagamentoDto>> GetVendasPorPagamentoAsync()
     {
         var empresaId = currentUser.GetEmpresaId();
-        var monthStart = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1);
+        var now = DateTime.UtcNow;
+        var monthStart = new DateTime(now.Year, now.Month,1,0,0,0,DateTimeKind.Utc);
 
         var result = await dbContext.VendaPagamentos
             .Where(item =>
