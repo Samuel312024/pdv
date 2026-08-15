@@ -15,9 +15,15 @@ public class InstaladorPdvService(
     {
         var candidatePaths = new[]
         {
-            Path.Combine(DownloadsRootPath, NomeArquivoInstalador),
-            Path.Combine(environment.ContentRootPath, ".app-data", "downloads", NomeArquivoInstalador)
-        };
+        // Caminho publicado junto com a API
+        Path.Combine(environment.ContentRootPath, "app-data", "downloads", NomeArquivoInstalador),
+
+        // Caminho configurado externamente
+        Path.Combine(DownloadsRootPath, NomeArquivoInstalador),
+
+        // Caminho antigo de desenvolvimento
+        Path.Combine(environment.ContentRootPath, ".app-data","downloads", NomeArquivoInstalador)
+    };
 
         return candidatePaths.FirstOrDefault(File.Exists);
     }
