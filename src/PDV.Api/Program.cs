@@ -90,7 +90,7 @@ builder.Services.AddMemoryCache();
 //    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services
     .AddDataProtection()
-    .PersistKeysToFileSystem(new DirectoryInfo(dataProtectionKeysRootPath));
+    .PersistKeysToDbContext<AppDbContext>();
 
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
 builder.Services.Configure<CatalogoProdutosExternosOptions>(builder.Configuration.GetSection("CatalogoProdutosExternos"));
