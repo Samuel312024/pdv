@@ -57,8 +57,10 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.HasDefaultSchema("pdv");
+        base.OnModelCreating(modelBuilder);
 
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+        modelBuilder.HasDefaultSchema("pdv");
         modelBuilder.Entity<Empresa>(entity =>
         {
             entity.HasKey(item => item.EmpresaId);

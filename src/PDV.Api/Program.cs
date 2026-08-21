@@ -17,6 +17,7 @@ using PDV.Api.Fiscal.Services;
 using PDV.Api.Hubs;
 using PDV.Api.Infrastructure;
 using PDV.Api.Services;
+using Microsoft.AspNetCore.DataProtection;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -141,6 +142,8 @@ builder.Services.AddAuthorization(options =>
     }
 });
 
+
+
 var frontendUrl = builder.Configuration["FrontendUrl"];
 
 builder.Services.AddCors(options =>
@@ -254,6 +257,7 @@ var app = builder.Build();
 var spaRootPath = Path.Combine(app.Environment.ContentRootPath, "wwwroot");
 Directory.CreateDirectory(uploadsRootPath);
 
+
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseCors("frontend");
 if (Directory.Exists(spaRootPath))
@@ -304,5 +308,6 @@ app.MapGet("/health", () => Results.Ok(new
     status = "ok",
     service = "PDV.Api"
 }));
+
 
 app.Run();
