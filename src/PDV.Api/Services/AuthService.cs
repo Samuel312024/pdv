@@ -9,11 +9,7 @@ using PDV.Api.Infrastructure;
 
 namespace PDV.Api.Services;
 
-public class AuthService(
-    AppDbContext dbContext,
-    IPasswordHasher<Usuario> passwordHasher,
-    TokenService tokenService,
-    IHttpContextAccessor httpContextAccessor,
+public class AuthService(AppDbContext dbContext, IPasswordHasher<Usuario> passwordHasher,TokenService tokenService, IHttpContextAccessor httpContextAccessor,
     UserPresenceService userPresenceService)
 {
     public async Task<LoginResponse> LoginAsync(LoginRequest request)

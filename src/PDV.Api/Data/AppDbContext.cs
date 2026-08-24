@@ -602,9 +602,144 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
         modelBuilder.Entity<Fornecedor>(entity =>
         {
+            entity.ToTable("Fornecedores");
+
             entity.HasKey(item => item.FornecedorId);
-            entity.Property(item => item.Nome).HasMaxLength(150).IsRequired();
-            entity.Property(item => item.Documento).HasMaxLength(20);
+
+            // Dados cadastrais
+            entity.Property(item => item.Nome)
+                .HasMaxLength(150)
+                .IsRequired();
+
+            entity.Property(item => item.NomeFantasia)
+                .HasMaxLength(150);
+
+            entity.Property(item => item.Documento)
+                .HasMaxLength(20);
+
+            entity.Property(item => item.TipoPessoa)
+                .HasMaxLength(20);
+
+            entity.Property(item => item.Codigo)
+                .HasMaxLength(50);
+
+            // Fiscal
+            entity.Property(item => item.InscricaoEstadual)
+                .HasMaxLength(20);
+
+            entity.Property(item => item.InscricaoMunicipal)
+                .HasMaxLength(20);
+
+            entity.Property(item => item.CnaePrincipal)
+                .HasMaxLength(20);
+
+            entity.Property(item => item.RegimeTributario)
+                .HasMaxLength(40);
+
+            entity.Property(item => item.ObservacaoFiscal)
+                .HasMaxLength(500);
+
+            // Endereço
+            entity.Property(item => item.Cep)
+                .HasMaxLength(8);
+
+            entity.Property(item => item.Logradouro)
+                .HasMaxLength(180);
+
+            entity.Property(item => item.Numero)
+                .HasMaxLength(20);
+
+            entity.Property(item => item.Complemento)
+                .HasMaxLength(120);
+
+            entity.Property(item => item.Bairro)
+                .HasMaxLength(80);
+
+            entity.Property(item => item.Cidade)
+                .HasMaxLength(80);
+
+            entity.Property(item => item.Uf)
+                .HasMaxLength(2);
+
+            entity.Property(item => item.CodigoMunicipioIbge)
+                .HasMaxLength(7);
+
+            // Contatos
+            entity.Property(item => item.Telefone)
+                .HasMaxLength(20);
+
+            entity.Property(item => item.Telefone2)
+                .HasMaxLength(20);
+
+            entity.Property(item => item.Celular)
+                .HasMaxLength(20);
+
+            entity.Property(item => item.Email)
+                .HasMaxLength(150);
+
+            entity.Property(item => item.EmailFinanceiro)
+                .HasMaxLength(150);
+
+            entity.Property(item => item.Responsavel)
+                .HasMaxLength(120);
+
+            // Comercial
+            entity.Property(item => item.ContatoComercial)
+                .HasMaxLength(120);
+
+            entity.Property(item => item.EmailComercial)
+                .HasMaxLength(150);
+
+            entity.Property(item => item.PrazoPagamento)
+                .HasMaxLength(80);
+
+            entity.Property(item => item.CondicaoPagamento)
+                .HasMaxLength(120);
+
+            entity.Property(item => item.LimiteCredito)
+                .HasPrecision(18, 2);
+
+            entity.Property(item => item.VendedorResponsavel)
+                .HasMaxLength(120);
+
+            entity.Property(item => item.ObservacaoComercial)
+                .HasMaxLength(500);
+
+            // Financeiro
+            entity.Property(item => item.Banco)
+                .HasMaxLength(100);
+
+            entity.Property(item => item.Agencia)
+                .HasMaxLength(30);
+
+            entity.Property(item => item.Conta)
+                .HasMaxLength(40);
+
+            entity.Property(item => item.TipoConta)
+                .HasMaxLength(30);
+
+            entity.Property(item => item.Pix)
+                .HasMaxLength(150);
+
+            entity.Property(item => item.TitularConta)
+                .HasMaxLength(150);
+
+            entity.Property(item => item.DocumentoTitularConta)
+                .HasMaxLength(20);
+
+            entity.Property(item => item.ObservacaoFinanceira)
+                .HasMaxLength(500);
+
+            // Observações
+            entity.Property(item => item.Observacoes)
+                .HasMaxLength(2000);
+
+            // Índices
+            entity.HasIndex(item => new { item.EmpresaId, item.Nome });
+
+            entity.HasIndex(item => new { item.EmpresaId, item.Documento });
+
+            entity.HasIndex(item => new { item.EmpresaId, item.Codigo });
         });
 
         modelBuilder.Entity<Transportadora>(entity =>

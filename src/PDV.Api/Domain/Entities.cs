@@ -550,17 +550,62 @@ public class Cliente
     public DateTime DataCadastro { get; set; } = DateTime.UtcNow;
 }
 
-public class Fornecedor
-{
-    public Guid FornecedorId { get; set; }
-    public Guid EmpresaId { get; set; }
-    public string Nome { get; set; } = string.Empty;
-    public string? Documento { get; set; }
-    public string? Telefone { get; set; }
-    public string? Email { get; set; }
-    public bool Ativo { get; set; } = true;
-    public DateTime DataCadastro { get; set; } = DateTime.UtcNow;
-}
+//public class Fornecedor
+//{
+//    public int FornecedorId { get; set; }
+
+//    public int EmpresaId { get; set; }
+
+//    // Dados cadastrais
+//    public string Nome { get; set; } = string.Empty;
+//    public string? NomeFantasia { get; set; }
+//    public string? Documento { get; set; }
+//    public string? TipoPessoa { get; set; }
+//    public bool Ativo { get; set; } = true;
+
+//    // Fiscal
+//    public string? InscricaoEstadual { get; set; }
+//    public string? InscricaoMunicipal { get; set; }
+//    public string? RegimeTributario { get; set; }
+//    public string? IndicadorIe { get; set; }
+
+//    // Endereço
+//    public string? Cep { get; set; }
+//    public string? Logradouro { get; set; }
+//    public string? Numero { get; set; }
+//    public string? Complemento { get; set; }
+//    public string? Bairro { get; set; }
+//    public string? Cidade { get; set; }
+//    public string? Uf { get; set; }
+//    public string? CodigoMunicipioIbge { get; set; }
+
+//    // Contatos
+//    public string? Telefone { get; set; }
+//    public string? Celular { get; set; }
+//    public string? Email { get; set; }
+//    public string? ContatoPrincipal { get; set; }
+
+//    // Comercial
+//    public string? VendedorResponsavel { get; set; }
+//    public string? CondicaoPagamento { get; set; }
+//    public int? PrazoPagamentoDias { get; set; }
+//    public decimal? LimiteCompra { get; set; }
+
+//    // Financeiro
+//    public string? Banco { get; set; }
+//    public string? Agencia { get; set; }
+//    public string? Conta { get; set; }
+//    public string? TipoConta { get; set; }
+//    public string? Pix { get; set; }
+
+//    // Observações
+//    public string? Observacoes { get; set; }
+
+//    public DateTime DataCadastro { get; set; }
+//    public DateTime? DataAlteracao { get; set; }
+
+//    public Empresa? Empresa { get; set; }
+//}
 
 public class Caixa
 {
