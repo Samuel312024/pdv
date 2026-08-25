@@ -19,33 +19,61 @@ public class FornecedoresController : ControllerBase
         _context = context;
     }
 
-    // GET: api/fornecedores
+   
     [HttpGet]
     [AllowAnonymous]
-    public async Task<ActionResult<IEnumerable<Fornecedor>>> GetFornecedores(
-        [FromQuery] string? busca = null)
+    public async Task<ActionResult<IEnumerable<Fornecedor>>> GetFornecedores( [FromQuery] string? search = null, [FromQuery] string? status = null, [FromQuery] int page = 1, [FromQuery] int pageSize = 25)
     {
-        var query = _context.Fornecedores
-            .AsNoTracking()
-            .AsQueryable();
 
-        if (!string.IsNullOrWhiteSpace(busca))
+        var query = _context.Fornecedores
+             .AsNoTracking()
+             .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(search))
         {
-            busca = busca.Trim();
+            var termo = search.Trim();
 
             query = query.Where(f =>
-                f.Nome.Contains(busca) ||
-                (f.Documento != null && f.Documento.Contains(busca)));
+                f.Nome.Contains(termo) ||
+                (f.Documento != null && f.Documento.Contains(termo)));
         }
+        // status ainda não existe no domínio — filtro é um no-op por enquanto
+        // (ver observação abaixo)
 
-        var fornecedores = await query
+        var total = await query.CountAsync();
+
+        var items = await query
             .OrderBy(f => f.Nome)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .Select(f => new
+            {
+                id = f.FornecedorId,
+                razaoSocial = f.Nome,
+                nomeFantasia = (string?)null,
+                documento = f.Documento,
+                cidade = (string?)null,
+                uf = (string?)null,
+                contato = (string?)null,
+                email = (string?)null,
+                telefone = (string?)null,
+                categoria = (string?)null,
+                status = "ATIVO",
+                ultimaCompraEm = (DateTime?)null,
+                comprasNoPeriodo = (int?)null,
+                valorComprasPeriodo = (decimal?)null,
+            })
             .ToListAsync();
 
-        return Ok(fornecedores);
+        return Ok(new
+        {
+            items,
+            total,
+            summary = (object?)null
+        });
     }
 
-    // GET: api/fornecedores/{id}
+
     [HttpGet("{id:guid}")]
     [AllowAnonymous]
     public async Task<ActionResult<Fornecedor>> GetFornecedor(Guid id)
@@ -190,7 +218,6 @@ public class FornecedoresController : ControllerBase
         return Ok(fornecedor);
     }
 
-    // DELETE: api/fornecedores/{id}
     [HttpDelete("{id:guid}")]
     [AllowAnonymous]
     public async Task<IActionResult> ExcluirFornecedor(Guid id)

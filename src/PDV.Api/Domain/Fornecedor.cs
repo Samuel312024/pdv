@@ -4,9 +4,6 @@ public class Fornecedor
 {
     public Guid FornecedorId { get; set; }
 
-    // =========================
-    // DADOS CADASTRAIS
-    // =========================
 
     public Guid EmpresaId { get; set; }
 
@@ -23,10 +20,6 @@ public class Fornecedor
     public bool Ativo { get; set; } = true;
 
 
-    // =========================
-    // FISCAL
-    // =========================
-
     public string? InscricaoEstadual { get; set; }
 
     public bool InscricaoEstadualIsento { get; set; }
@@ -40,10 +33,7 @@ public class Fornecedor
     public string? ObservacaoFiscal { get; set; }
 
 
-    // =========================
-    // ENDEREÇO
-    // =========================
-
+   
     public string? Cep { get; set; }
 
     public string? Logradouro { get; set; }
@@ -61,9 +51,6 @@ public class Fornecedor
     public string? CodigoMunicipioIbge { get; set; }
 
 
-    // =========================
-    // CONTATOS
-    // =========================
 
     public string? Telefone { get; set; }
 
@@ -78,9 +65,7 @@ public class Fornecedor
     public string? Responsavel { get; set; }
 
 
-    // =========================
-    // COMERCIAL
-    // =========================
+  
 
     public string? ContatoComercial { get; set; }
 
@@ -97,9 +82,7 @@ public class Fornecedor
     public string? ObservacaoComercial { get; set; }
 
 
-    // =========================
-    // FINANCEIRO
-    // =========================
+
 
     public string? Banco { get; set; }
 
@@ -118,16 +101,10 @@ public class Fornecedor
     public string? ObservacaoFinanceira { get; set; }
 
 
-    // =========================
-    // OBSERVAÇÕES
-    // =========================
 
     public string? Observacoes { get; set; }
 
 
-    // =========================
-    // CONTROLE
-    // =========================
 
     public DateTime DataCadastro { get; set; } = DateTime.UtcNow;
 
