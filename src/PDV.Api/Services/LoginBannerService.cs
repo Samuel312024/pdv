@@ -5,9 +5,9 @@ using PDV.Api.DTOs;
 
 namespace PDV.Api.Services;
 
-public class LoginBannerService(AppDbContext db, IWebHostEnvironment env)
+public class LoginBannerService(AppDbContext db, SupabaseStorageService storageService)
 {
-    private const string PastaUploads = "uploads/login-banners";
+    private const string PastaBucket = "login-banners";
 
     public async Task<IReadOnlyCollection<LoginBannerDto>> GetAllAsync()
     {
@@ -24,22 +24,16 @@ public class LoginBannerService(AppDbContext db, IWebHostEnvironment env)
         return banners.Select(ParaDto).ToList();
     }
 
-    // retorna null em caso de validacao invalida - o controller decide o status code
     public async Task<LoginBannerDto?> CreateAsync(IFormFile? imagem)
     {
         if (imagem is null || imagem.Length == 0) return null;
         if (!imagem.ContentType.StartsWith("image/")) return null;
 
-        var pastaFisica = Path.Combine(env.ContentRootPath, PastaUploads);
-        Directory.CreateDirectory(pastaFisica);
-
         var nomeArquivo = $"{Guid.NewGuid()}{Path.GetExtension(imagem.FileName)}";
-        var caminhoFisico = Path.Combine(pastaFisica, nomeArquivo);
+        var caminhoNoBucket = $"{PastaBucket}/{nomeArquivo}";
 
-        await using (var stream = new FileStream(caminhoFisico, FileMode.Create))
-        {
-            await imagem.CopyToAsync(stream);
-        }
+        await using var stream = imagem.OpenReadStream();
+        var urlPublica = await storageService.UploadAsync(caminhoNoBucket, stream, imagem.ContentType);
 
         var proximaOrdem = await db.LoginBanners.AnyAsync()
             ? await db.LoginBanners.MaxAsync(b => b.Ordem) + 1
@@ -47,8 +41,8 @@ public class LoginBannerService(AppDbContext db, IWebHostEnvironment env)
 
         var banner = new LoginBanner
         {
-            ImagemCaminho = $"{PastaUploads}/{nomeArquivo}",
-            ImagemUrl = $"/{PastaUploads}/{nomeArquivo}",
+            ImagemCaminho = caminhoNoBucket, // path dentro do bucket, usado só pra deletar depois
+            ImagemUrl = urlPublica,          // URL pública completa do Supabase
             Ordem = proximaOrdem,
             Ativo = true
         };
@@ -58,7 +52,6 @@ public class LoginBannerService(AppDbContext db, IWebHostEnvironment env)
         return ParaDto(banner);
     }
 
-    // retorna null quando o banner nao existe
     public async Task<LoginBannerDto?> UpdateAsync(Guid bannerId, AtualizarLoginBannerRequest request)
     {
         var banner = await db.LoginBanners.FindAsync(bannerId);
@@ -71,15 +64,12 @@ public class LoginBannerService(AppDbContext db, IWebHostEnvironment env)
         return ParaDto(banner);
     }
 
-    // retorna false quando o banner nao existe
     public async Task<bool> DeleteAsync(Guid bannerId)
     {
         var banner = await db.LoginBanners.FindAsync(bannerId);
         if (banner is null) return false;
 
-        var caminhoFisico = Path.Combine(env.ContentRootPath, banner.ImagemCaminho);
-        if (File.Exists(caminhoFisico))
-            File.Delete(caminhoFisico);
+        await storageService.DeleteAsync(banner.ImagemCaminho);
 
         db.LoginBanners.Remove(banner);
         await db.SaveChangesAsync();

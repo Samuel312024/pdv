@@ -253,6 +253,8 @@ builder.Services.AddScoped<RelatorioService>();
 builder.Services.AddScoped<FinanceiroService>();
 builder.Services.AddScoped<CobrancaDigitalService>();
 builder.Services.AddSingleton<ScannerSessaoService>();
+builder.Services.Configure<SupabaseStorageOptions>(builder.Configuration.GetSection("Supabase"));
+builder.Services.AddHttpClient<SupabaseStorageService>();
 
 var app = builder.Build();
 var spaRootPath = Path.Combine(app.Environment.ContentRootPath, "wwwroot");
