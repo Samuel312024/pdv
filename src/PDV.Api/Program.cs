@@ -310,14 +310,4 @@ app.MapGet("/health", () => Results.Ok(new
     service = "PDV.Api"
 }));
 
-app.UseStaticFiles(); // se ainda não tiver, serve o wwwroot padrão
-
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(
-        Path.Combine(app.Environment.ContentRootPath, "uploads")),
-    RequestPath = "/uploads"
-});
-
-
 app.Run();
