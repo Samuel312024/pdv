@@ -61,6 +61,7 @@ public static class Permissoes
     public const string EmitirNotasFiscais = "EmitirNotasFiscais";
     public const string VisualizarMonitorOperacional = "VisualizarMonitorOperacional";
     public const string VisualizarHardware = "VisualizarHardware";
+    public const string GerenciarConfiguracoes = "GerenciarConfiguracoes";
 
     public static readonly IReadOnlyCollection<PermissaoDefinicao> Definitions =
     [
@@ -93,7 +94,8 @@ public static class Permissoes
         new(GerenciarEmpresaFiscal, "Gerenciar empresa fiscal", "Fiscal", "Permite alterar configuracoes fiscais da empresa."),
         new(VisualizarNotasFiscais, "Visualizar NF-e", "Fiscal", "Permite consultar notas fiscais."),
         new(EmitirNotasFiscais, "Emitir NF-e", "Fiscal", "Permite gerar e transmitir notas fiscais."),
-        new(VisualizarHardware, "Visualizar hardware", "Operacao", "Permite acessar a area de testes de scanner, camera e impressao.")
+        new(VisualizarHardware, "Visualizar hardware", "Operacao", "Permite acessar a area de testes de scanner, camera e impressao."),
+        new(GerenciarConfiguracoes, "Gerenciar configuracoes", "Administracao", "Permite acessar e alterar as configuracoes gerais do sistema, como aparencia da tela de login.")
     ];
 
     public static readonly IReadOnlyCollection<string> All = Definitions

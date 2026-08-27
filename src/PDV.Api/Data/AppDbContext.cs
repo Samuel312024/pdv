@@ -54,6 +54,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<CobrancaDigital> CobrancasDigitais => Set<CobrancaDigital>();
     public DbSet<LogSistema> LogsSistema => Set<LogSistema>();
     public DbSet<DataProtectionKey> DataProtectionKeys => Set<DataProtectionKey>();
+    public DbSet<LoginBanner> LoginBanners => Set<LoginBanner>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -1048,6 +1049,29 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             entity.Property(item => item.Descricao).HasMaxLength(300).IsRequired();
             entity.Property(item => item.Dados).HasColumnType("nvarchar(max)");
             entity.Property(item => item.IpAddress).HasMaxLength(64);
+        });
+
+        modelBuilder.Entity<LoginBanner>(entity =>
+        {
+            entity.HasKey(e => e.BannerId);
+
+            entity.Property(e => e.BannerId)
+                .ValueGeneratedOnAdd();
+
+            entity.Property(e => e.ImagemUrl)
+                .IsRequired();
+
+            entity.Property(e => e.ImagemCaminho)
+                .IsRequired();
+
+            entity.Property(e => e.Ordem)
+                .IsRequired();
+
+            entity.Property(e => e.Ativo)
+                .IsRequired();
+
+            entity.Property(e => e.CriadoEm)
+                .IsRequired();
         });
     }
 }

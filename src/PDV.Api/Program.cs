@@ -27,6 +27,7 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
+builder.Services.AddScoped<LoginBannerService>();
 
 var appDataRootPath = Path.GetFullPath(
     AppDataPathResolver.ResolveRootPath(builder.Environment, builder.Configuration));
@@ -308,6 +309,15 @@ app.MapGet("/health", () => Results.Ok(new
     status = "ok",
     service = "PDV.Api"
 }));
+
+app.UseStaticFiles(); // se ainda não tiver, serve o wwwroot padrão
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(app.Environment.ContentRootPath, "uploads")),
+    RequestPath = "/uploads"
+});
 
 
 app.Run();

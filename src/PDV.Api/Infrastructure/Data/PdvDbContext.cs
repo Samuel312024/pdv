@@ -70,6 +70,8 @@ public class PdvDbContext : DbContext
 
     public DbSet<LogSistema> LogsSistema => Set<LogSistema>();
 
+    public object LoginBanners { get; internal set; }
+
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
         configurationBuilder.Properties<decimal>()
