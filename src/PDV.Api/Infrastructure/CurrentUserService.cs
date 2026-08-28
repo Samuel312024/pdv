@@ -9,6 +9,8 @@ public class CurrentUserService(IHttpContextAccessor httpContextAccessor)
     private ClaimsPrincipal User => httpContextAccessor.HttpContext?.User
         ?? throw new UnauthorizedAppException("Usuario nao autenticado.");
 
+    public Guid EmpresaId { get; internal set; }
+
     public Guid GetUserId()
     {
         var value = User.FindFirstValue(ClaimTypes.NameIdentifier);
